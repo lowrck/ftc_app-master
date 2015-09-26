@@ -123,8 +123,8 @@ public class MyTeleOp extends OpMode {
 		 * are currently write only.
 		 */
         telemetry.addData("Text", "*** Robot Data***");
-        telemetry.addData("left tgt pwr",  "left  pwr: " + String.format("%.2f", lefty));
-        telemetry.addData("right tgt pwr", "right pwr: " + String.format("%.2f", righty));
+        telemetry.addData("left tgt pwr",  "left  pwr: " + String.format("%.3f", lefty));
+        telemetry.addData("right tgt pwr", "right pwr: " + String.format("%.3f", righty));
 
 	}
 
