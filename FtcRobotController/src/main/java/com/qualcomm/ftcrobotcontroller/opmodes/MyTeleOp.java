@@ -86,7 +86,7 @@ public class MyTeleOp extends OpMode {
 		 */
         motor_1 = hardwareMap.dcMotor.get("motor_1");
         motor_2 = hardwareMap.dcMotor.get("motor_2");
-        motor_2.setDirection(DcMotor.Direction.REVERSE);
+
         }
 
 	/*
@@ -108,14 +108,14 @@ public class MyTeleOp extends OpMode {
 		// 1 is full down
 		// direction: left_stick_x ranges from -1 to 1, where -1 is full left
 		// and 1 is full right
-		float left = gamepad1.left_stick_y;
-		float right = gamepad1.right_stick_y;
+		float lefty = gamepad1.left_stick_y;
+		float righty = gamepad1.right_stick_y;
 
-        left = (float) ((left*16.0)/16.0);
-        right = (float) ((right*16.0)/16.0);
+        lefty = (float) ((lefty*32.0)/32.0);
+        righty = (float) ((righty*32.0)/32.0);
 		// write the values to the motors
-		motor_1.setPower(-left);
-        motor_2.setPower(-right);
+		motor_1.setPower(-lefty);
+        motor_2.setPower(-righty);
 		/*
 		 * Send telemetry data back to driver station. Note that if we are using
 		 * a legacy NXT-compatible motor controller, then the getPower() method
@@ -123,8 +123,8 @@ public class MyTeleOp extends OpMode {
 		 * are currently write only.
 		 */
         telemetry.addData("Text", "*** Robot Data***");
-        telemetry.addData("left tgt pwr",  "left  pwr: " + String.format("%.2f", left));
-        telemetry.addData("right tgt pwr", "right pwr: " + String.format("%.2f", right));
+        telemetry.addData("left tgt pwr",  "left  pwr: " + String.format("%.2f", lefty));
+        telemetry.addData("right tgt pwr", "right pwr: " + String.format("%.2f", righty));
 
 	}
 
