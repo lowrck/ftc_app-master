@@ -41,7 +41,10 @@ import com.qualcomm.robotcore.util.Range;
  * <p>
  * Enables control of the robot via the gamepad
  */
+
+
 public class MyTeleOp extends OpMode {
+
 
 	/*
 	 * Note: the configuration of the servos is such that
@@ -49,17 +52,18 @@ public class MyTeleOp extends OpMode {
 	 * Also, as the claw servo approaches 0, the claw opens up (drops the game element).
 	 */
 	// tread motors
-	DcMotor motor_lt1;
-    DcMotor motor_lt2;
-	DcMotor motor_rt1;
-	DcMotor motor_rt2;
+	//DcMotor motor_1;
+    //DcMotor motor_2;
+	//DcMotor motor_3;
+	//DcMotor motor_4;
+    Servo servo_1;
 
 	/*
 	harvester motors for robotics
 	 */
 
-	DcMotor harvester_init;
-	DcMotor harvester_ramp;
+	//DcMotor harvester_init;
+	//DcMotor harvester_ramp;
 
 
 	/**
@@ -94,10 +98,11 @@ public class MyTeleOp extends OpMode {
 		 *    "servo_1" controls the arm joint of the manipulator.
 		 *    "servo_6" controls the claw joint of the manipulator.
 		 */
-        motor_lt1 = hardwareMap.dcMotor.get("motor_lt1");
-		motor_lt2 = hardwareMap.dcMotor.get("motor_lt2");
-		motor_rt1 = hardwareMap.dcMotor.get("motor_rt1");
-		motor_rt2 = hardwareMap.dcMotor.get("motor_rt2");
+        //motor_1 = hardwareMap.dcMotor.get("motor_1");
+		//motor_2 = hardwareMap.dcMotor.get("motor_2");
+		//motor_3 = hardwareMap.dcMotor.get("motor_3");
+		//motor_4 = hardwareMap.dcMotor.get("motor_4");
+        servo_1 = hardwareMap.servo.get("servo_1");
 
         }
 
@@ -116,20 +121,37 @@ public class MyTeleOp extends OpMode {
 		 * wrist/claw via the a,b, x, y buttons
 		 */
 
-		// throttle: left_stick_y ranges from -1 to 1, where -1 is full up, and
-		// 1 is full down
-		// direction: left_stick_x ranges from -1 to 1, where -1 is full left
-		// and 1 is full right
-		float lefty = gamepad1.left_stick_y;
-		float righty = gamepad1.right_stick_y;
+        // throttle: left_stick_y ranges from -1 to 1, where -1 is full up, and
+        // 1 is full down
+        // direction: left_stick_x ranges from -1 to 1, where -1 is full left
+        // and 1 is full right
+        float lefty = gamepad1.left_stick_y;
+        float righty = gamepad1.right_stick_y;
+        float leftt = gamepad1.left_trigger;
+        float rightt = gamepad1.right_trigger;
+        boolean triggerdump = gamepad1.y;
+
+        float triggerdumpvalue = 0;
+
+            if (triggerdump == true)
+            {
+                triggerdumpvalue = 0.5f;
+            }
+            else
+            {
+                triggerdumpvalue = 0;
+            }
+
+
 
         lefty = (float) ((lefty*32.0)/32.0);
         righty = (float) ((righty*32.0)/32.0);
 		// write the values to the motors
-		motor_lt1.setPower(-lefty);
-		motor_lt2.setPower(-lefty);
-        motor_rt1.setPower(-righty);
-		motor_rt2.setPower(-righty);
+		//motor_1.setPower(-lefty);
+		//motor_2.setPower(-lefty);
+        //motor_3.setPower(-righty);
+		//motor_4.setPower(-righty);
+        servo_1.setPosition(triggerdumpvalue);
 		/*
 		 * Send telemetry data back to driver station. Note that if we are using
 		 * a legacy NXT-compatible motor controller, then the getPower() method
@@ -139,6 +161,7 @@ public class MyTeleOp extends OpMode {
         telemetry.addData("Text", "*** Robot Data***");
         telemetry.addData("left tgt pwr",  "left  pwr: " + String.format("%.3f", lefty));
         telemetry.addData("right tgt pwr", "right pwr: " + String.format("%.3f", righty));
+        telemetry.addData("servo controller", "servo is" + String.format("%.3f", triggerdumpvalue));
 
 	}
 
