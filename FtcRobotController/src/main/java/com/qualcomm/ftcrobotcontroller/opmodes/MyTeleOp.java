@@ -131,7 +131,7 @@ public class MyTeleOp extends OpMode {
         float rightt = gamepad1.right_trigger;
         boolean triggerdump = gamepad1.y;
 
-        float triggerdumpvalue = 1;
+        float triggerdumpvalue = 0;
 
             if (triggerdump == true)
             {
