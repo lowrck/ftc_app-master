@@ -48,9 +48,19 @@ public class MyTeleOp extends OpMode {
 	 * as the arm servo approaches 0, the arm position moves up (away from the floor).
 	 * Also, as the claw servo approaches 0, the claw opens up (drops the game element).
 	 */
-	// TETRIX VALUES.
-	DcMotor motor_1;
-    DcMotor motor_2;
+	// tread motors
+	DcMotor motor_lt1;
+    DcMotor motor_lt2;
+	DcMotor motor_rt1;
+	DcMotor motor_rt2;
+
+	/*
+	harvester motors for robotics
+	 */
+
+	DcMotor harvester_init;
+	DcMotor harvester_ramp;
+
 
 	/**
 	 * Constructor
@@ -84,8 +94,10 @@ public class MyTeleOp extends OpMode {
 		 *    "servo_1" controls the arm joint of the manipulator.
 		 *    "servo_6" controls the claw joint of the manipulator.
 		 */
-        motor_1 = hardwareMap.dcMotor.get("motor_1");
-        motor_2 = hardwareMap.dcMotor.get("motor_2");
+        motor_lt1 = hardwareMap.dcMotor.get("motor_lt1");
+		motor_lt2 = hardwareMap.dcMotor.get("motor_lt2");
+		motor_rt1 = hardwareMap.dcMotor.get("motor_rt1");
+		motor_rt2 = hardwareMap.dcMotor.get("motor_rt2");
 
         }
 
@@ -114,8 +126,10 @@ public class MyTeleOp extends OpMode {
         lefty = (float) ((lefty*32.0)/32.0);
         righty = (float) ((righty*32.0)/32.0);
 		// write the values to the motors
-		motor_1.setPower(-lefty);
-        motor_2.setPower(-righty);
+		motor_lt1.setPower(-lefty);
+		motor_lt2.setPower(-lefty);
+        motor_rt1.setPower(-righty);
+		motor_rt2.setPower(-righty);
 		/*
 		 * Send telemetry data back to driver station. Note that if we are using
 		 * a legacy NXT-compatible motor controller, then the getPower() method
