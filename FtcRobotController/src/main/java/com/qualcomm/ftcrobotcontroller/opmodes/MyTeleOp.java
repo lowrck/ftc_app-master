@@ -35,6 +35,9 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
+import java.util.Timer;
+import java.util.TimerTask;
+
 
 /**
  * TeleOp Mode
@@ -46,24 +49,29 @@ import com.qualcomm.robotcore.util.Range;
 public class MyTeleOp extends OpMode {
 
 
+	//Timer Task for ramp motor
+
+	Timer ramp = new Timer();
+
 	/*
 	 * Note: the configuration of the servos is such that
 	 * as the arm servo approaches 0, the arm position moves up (away from the floor).
 	 * Also, as the claw servo approaches 0, the claw opens up (drops the game element).
 	 */
 	// tread motors
-	//DcMotor motor_1;
-    //DcMotor motor_2;
-	//DcMotor motor_3;
-	//DcMotor motor_4;
-    Servo servo_1;
+	DcMotor motor_1;
+    DcMotor motor_2;
+	DcMotor motor_3;
+	DcMotor motor_4;
+
+	Servo servo_1;
 
 	/*
 	harvester motors for robotics
 	 */
 
-	//DcMotor harvester_init;
-	//DcMotor harvester_ramp;
+	DcMotor harvester_init;
+	DcMotor harvester_ramp;
 
 
 	/**
@@ -98,12 +106,12 @@ public class MyTeleOp extends OpMode {
 		 *    "servo_1" controls the arm joint of the manipulator.
 		 *    "servo_6" controls the claw joint of the manipulator.
 		 */
-        //motor_1 = hardwareMap.dcMotor.get("motor_1");
-		//motor_2 = hardwareMap.dcMotor.get("motor_2");
-		//motor_3 = hardwareMap.dcMotor.get("motor_3");
-		//motor_4 = hardwareMap.dcMotor.get("motor_4");
+        motor_1 = hardwareMap.dcMotor.get("motor_1");
+		motor_2 = hardwareMap.dcMotor.get("motor_2");
+		motor_3 = hardwareMap.dcMotor.get("motor_3");
+		motor_4 = hardwareMap.dcMotor.get("motor_4");
         servo_1 = hardwareMap.servo.get("servo_1");
-
+		harvester_ramp = hardwareMap.dcMotor.get("harvester_ramp");
         }
 
 	/*
@@ -130,6 +138,9 @@ public class MyTeleOp extends OpMode {
         float leftt = gamepad1.left_trigger;
         float rightt = gamepad1.right_trigger;
         boolean triggerdump = gamepad1.y;
+		float triggerrail = gamepad1.right_trigger;
+		boolean rbumper = gamepad1.right_bumper;
+		float rbumpervalue = 0;
 
         float triggerdumpvalue = 0;
 
@@ -141,6 +152,33 @@ public class MyTeleOp extends OpMode {
             {
                 triggerdumpvalue = 0;
             }
+		if (rbumper == true)
+		{
+			rbumpervalue = 1;
+		}
+		else
+		{
+			rbumpervalue = 0;
+		}
+
+
+	if (triggerrail == 100 ) {
+		ramp.schedule(new TimerTask() {
+			@Override
+			public void run() {
+			harvester_ramp.setPower(1);
+
+			}
+		}, 2*60*1000);
+		harvester_ramp.setPower(0);
+		if (rbumpervalue == 1) {
+			harvester_ramp.setPower(-1);
+		}
+		else {
+			harvester_ramp.setPower(0);
+		}
+	}
+
 
 
 
@@ -152,6 +190,7 @@ public class MyTeleOp extends OpMode {
         //motor_3.setPower(-righty);
 		//motor_4.setPower(-righty);
         servo_1.setPosition(triggerdumpvalue);
+
 		/*
 		 * Send telemetry data back to driver station. Note that if we are using
 		 * a legacy NXT-compatible motor controller, then the getPower() method
