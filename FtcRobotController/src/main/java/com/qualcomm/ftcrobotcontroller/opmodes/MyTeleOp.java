@@ -79,6 +79,10 @@ public class MyTeleOp extends OpMode {
 	DcMotor motor_harvest;
 	DcMotor motor_pickup;
 
+	/*
+	I am a swag master(control variables)
+	*/
+	boolean pickup = false;
 	/**
 	 * Constructor
 	 */
@@ -156,7 +160,6 @@ public class MyTeleOp extends OpMode {
 		boolean lbumper = gamepad1.left_bumper;
 		float rbumpervalue = 0;
 		boolean xswitch = gamepad1.x;
-		boolean pickup = false;
 
         float triggerdumpvalue = 0;
 
@@ -210,26 +213,19 @@ public class MyTeleOp extends OpMode {
 
 		if(xswitch)
 		{
-			pickup = true;
-		}
-
-		if(pickup) {
-			motor_pickup.setPower(1);
-		}
-		else {
-			motor_pickup.setPower(0.0f);
+			pickup = !pickup;
 		}
 
         lefty = (float) ((lefty*32.0)/32.0);
         righty = (float) ((righty*32.0)/32.0);
 		// write the values to the motors
 
-			motor_1.setPower(righty);
-			motor_2.setPower(righty);
-			motor_3.setPower(-lefty);
-			motor_4.setPower(-lefty);
+		motor_1.setPower(righty);
+		motor_2.setPower(righty);
+		motor_3.setPower(-lefty);
+		motor_4.setPower(-lefty);
 
-			motor_pickup.setPower(pickup?100:0);
+		motor_pickup.setPower(pickup?1.0f:0.0f);
 
 		/*
 		 * Send telemetry data back to driver station. Note that if we are using
