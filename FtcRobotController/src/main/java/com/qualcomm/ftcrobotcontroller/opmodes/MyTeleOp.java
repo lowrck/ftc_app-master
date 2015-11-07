@@ -151,7 +151,6 @@ public class MyTeleOp extends OpMode {
         float leftt = gamepad1.left_trigger;
         float rightt = gamepad1.right_trigger;
         boolean triggerdump = gamepad1.y;
-		float triggerrail = gamepad1.right_trigger;
 		boolean rbumper = gamepad1.right_bumper;
 		boolean lbumper = gamepad1.left_bumper;
 		float rbumpervalue = 0;
@@ -204,7 +203,7 @@ public class MyTeleOp extends OpMode {
 			lbumperval = 0.0f;
 		}
 		motor_harvest.setPower(lbumperval);
-		motor_harvest.setPower(lbumperval);
+		motor_harvest2.setPower(-lbumperval);
 
 
 
