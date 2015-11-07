@@ -214,8 +214,8 @@ public class MyTeleOp extends OpMode {
 
 		motor_1.setPower(-lefty);
 		motor_2.setPower(-lefty);
-        motor_3.setPower(-righty);
-		motor_4.setPower(-righty);
+        motor_3.setPower(righty);
+		motor_4.setPower(righty);
         //servo_1.setPosition(triggerdumpvalue);
 
 		/*
