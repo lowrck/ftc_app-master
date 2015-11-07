@@ -212,10 +212,10 @@ public class MyTeleOp extends OpMode {
         righty = (float) ((righty*32.0)/32.0);
 		// write the values to the motors
 
-		motor_1.setPower(-lefty);
-		motor_2.setPower(-lefty);
-        motor_3.setPower(righty);
-		motor_4.setPower(righty);
+		motor_1.setPower(lefty);
+		motor_2.setPower(lefty);
+        motor_3.setPower(-righty);
+		motor_4.setPower(-righty);
         //servo_1.setPosition(triggerdumpvalue);
 
 		/*
