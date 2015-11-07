@@ -77,7 +77,7 @@ public class MyTeleOp extends OpMode {
 
 	DcMotor motor_harvest2;
 	DcMotor motor_harvest;
-
+	DcMotor motor_pickup;
 
 	/**
 	 * Constructor
@@ -116,6 +116,7 @@ public class MyTeleOp extends OpMode {
 		motor_4 = hardwareMap.dcMotor.get("motor_4");
 		motor_harvest = hardwareMap.dcMotor.get("motor_harvest");
 		motor_harvest2 = hardwareMap.dcMotor.get("motor_harvest2");
+		motor_pickup = hardwareMap.dcMotor.get("motor_pickup");
         //servo_1 = hardwareMap.servo.get("servo_1");
 
 
@@ -155,6 +156,7 @@ public class MyTeleOp extends OpMode {
 		boolean lbumper = gamepad1.left_bumper;
 		float rbumpervalue = 0;
 		boolean xswitch = gamepad1.x;
+		boolean pickup = false;
 
         float triggerdumpvalue = 0;
 
@@ -206,8 +208,17 @@ public class MyTeleOp extends OpMode {
 		motor_harvest.setPower(lbumperval);
 		motor_harvest2.setPower(-lbumperval);
 
+		if(xswitch)
+		{
+			pickup = true;
+		}
 
-
+		if(pickup) {
+			motor_pickup.setPower(1);
+		}
+		else {
+			motor_pickup.setPower(0.0f);
+		}
 
         lefty = (float) ((lefty*32.0)/32.0);
         righty = (float) ((righty*32.0)/32.0);
@@ -218,7 +229,7 @@ public class MyTeleOp extends OpMode {
 			motor_3.setPower(-lefty);
 			motor_4.setPower(-lefty);
 
-
+			motor_pickup.setPower(pickup?100:0);
 
 		/*
 		 * Send telemetry data back to driver station. Note that if we are using
