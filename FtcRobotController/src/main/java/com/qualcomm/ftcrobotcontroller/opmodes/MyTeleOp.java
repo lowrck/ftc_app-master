@@ -66,6 +66,9 @@ public class MyTeleOp extends OpMode {
 
 	Servo servo_1;
 
+	float lbumperval = 0f;
+
+
 	/*
 	harvester motors for robotics
 	 */
@@ -88,7 +91,6 @@ public class MyTeleOp extends OpMode {
 	 */
 	@Override
 	public void init() {
-
 
 		/*
 		 * Use the hardwareMap to get the dc motors and servos by name. Note
@@ -140,6 +142,7 @@ public class MyTeleOp extends OpMode {
         boolean triggerdump = gamepad1.y;
 		float triggerrail = gamepad1.right_trigger;
 		boolean rbumper = gamepad1.right_bumper;
+		boolean lbumper = gamepad1.left_bumper;
 		float rbumpervalue = 0;
 
         float triggerdumpvalue = 0;
@@ -178,6 +181,15 @@ public class MyTeleOp extends OpMode {
 			harvester_ramp.setPower(0);
 		}
 	}
+		if (lbumper == false) {
+			lbumperval = leftt;
+		}
+		else if (lbumper == true){
+			lbumperval = -0.7f;
+		}
+		else {
+			lbumper == 0.0f;
+		}
 
 
 
