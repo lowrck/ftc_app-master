@@ -212,22 +212,13 @@ public class MyTeleOp extends OpMode {
         lefty = (float) ((lefty*32.0)/32.0);
         righty = (float) ((righty*32.0)/32.0);
 		// write the values to the motors
-		if (xswitch == true) {
-			motor_1.setPower(lefty);
-			motor_2.setPower(lefty);
-			motor_3.setPower(-righty);
-			motor_4.setPower(-righty);
-			//servo_1.setPosition(triggerdumpvalue);
-		}
-		else {
-
 
 			motor_1.setPower(righty);
 			motor_2.setPower(righty);
 			motor_3.setPower(-lefty);
 			motor_4.setPower(-lefty);
 
-		}
+
 
 		/*
 		 * Send telemetry data back to driver station. Note that if we are using
