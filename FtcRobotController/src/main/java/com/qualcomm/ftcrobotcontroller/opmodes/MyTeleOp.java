@@ -34,6 +34,7 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.*;
 import com.qualcomm.robotcore.util.Range;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -64,16 +65,17 @@ public class MyTeleOp extends OpMode {
 	DcMotor motor_3;
 	DcMotor motor_4;
 
-	Servo servo_1;
+	//Servo servo_1;
 
 	float lbumperval = 0f;
+	public String mode = "DcMotorController.RunMode.RUN_USING_ENCODERS";
 
 
 	/*
 	harvester motors for robotics
 	 */
 
-	DcMotor harvester_init;
+	DcMotor motor_harvest2;
 	DcMotor motor_harvest;
 
 
@@ -113,7 +115,16 @@ public class MyTeleOp extends OpMode {
 		motor_3 = hardwareMap.dcMotor.get("motor_3");
 		motor_4 = hardwareMap.dcMotor.get("motor_4");
 		motor_harvest = hardwareMap.dcMotor.get("motor_harvest");
-        servo_1 = hardwareMap.servo.get("servo_1");
+		motor_harvest2 = hardwareMap.dcMotor.get("motor_harvest2");
+        //servo_1 = hardwareMap.servo.get("servo_1");
+
+
+		//motor_1.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+		//motor_2.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+		//motor_3.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+		//motor_4.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+		//motor_harvest.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+		//		motor_harvest2.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         }
 
 	/*
@@ -193,6 +204,7 @@ public class MyTeleOp extends OpMode {
 			lbumperval = 0.0f;
 		}
 		motor_harvest.setPower(lbumperval);
+		motor_harvest.setPower(lbumperval);
 
 
 
@@ -200,11 +212,12 @@ public class MyTeleOp extends OpMode {
         lefty = (float) ((lefty*32.0)/32.0);
         righty = (float) ((righty*32.0)/32.0);
 		// write the values to the motors
+
 		motor_1.setPower(-lefty);
 		motor_2.setPower(-lefty);
         motor_3.setPower(-righty);
 		motor_4.setPower(-righty);
-        servo_1.setPosition(triggerdumpvalue);
+        //servo_1.setPosition(triggerdumpvalue);
 
 		/*
 		 * Send telemetry data back to driver station. Note that if we are using
