@@ -74,7 +74,7 @@ public class MyTeleOp extends OpMode {
 	 */
 
 	DcMotor harvester_init;
-	DcMotor harvester_ramp;
+	DcMotor motor_harvest;
 
 
 	/**
@@ -112,8 +112,8 @@ public class MyTeleOp extends OpMode {
 		motor_2 = hardwareMap.dcMotor.get("motor_2");
 		motor_3 = hardwareMap.dcMotor.get("motor_3");
 		motor_4 = hardwareMap.dcMotor.get("motor_4");
+		motor_harvest = hardwareMap.dcMotor.get("motor_harvest");
         servo_1 = hardwareMap.servo.get("servo_1");
-		harvester_ramp = hardwareMap.dcMotor.get("harvester_ramp");
         }
 
 	/*
@@ -165,7 +165,7 @@ public class MyTeleOp extends OpMode {
 		}
 
 
-	if (triggerrail == 100 ) {
+	/* if (triggerrail == 100 ) {
 		ramp.schedule(new TimerTask() {
 			@Override
 			public void run() {
@@ -181,6 +181,8 @@ public class MyTeleOp extends OpMode {
 			harvester_ramp.setPower(0);
 		}
 	}
+	*/
+
 		if (lbumper == false) {
 			lbumperval = leftt;
 		}
@@ -188,8 +190,9 @@ public class MyTeleOp extends OpMode {
 			lbumperval = -0.7f;
 		}
 		else {
-			lbumper == 0.0f;
+			lbumperval = 0.0f;
 		}
+		motor_harvest.setPower(lbumperval);
 
 
 
