@@ -3,13 +3,12 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.*;
-import com.qualcomm.robotcore.util.Range;
-import java.util.Timer;
-import java.util.TimerTask;
 
-public class MyAutoOp extends OpMode {
+import java.util.Timer;
+
+public class MyAutoOpRed2 extends OpMode {
 
     //Timer Task for ramp motor
 
@@ -59,12 +58,15 @@ public class MyAutoOp extends OpMode {
     @Override
     public void loop()
     {
-        //Straight 3 tiles in order to line up with the climber box
+        //wait for everyone else to go
+        try {wait(5000L);} catch(InterruptedException e){}
+
+        //Straight 4 tiles in order to line up with the climber box
         motor_1.setPower(1.0);
         motor_2.setPower(1.0);
         motor_3.setPower(-1.0);
         motor_4.setPower(-1.0);
-        while(motor_1.getCurrentPosition() < 5040&&motor_3.getCurrentPosition() > -5040){}
+        while(motor_1.getCurrentPosition() < 6720&&motor_3.getCurrentPosition() > -6720){}
         motor_1.setPower(0.0);
         motor_2.setPower(0.0);
         motor_3.setPower(0.0);
@@ -83,12 +85,12 @@ public class MyAutoOp extends OpMode {
         motor_4.setPower(0.0);
         resetEncoders();
 
-        //Straight 2 tiles in order to go to climber box
+        //Straight 3 tiles in order to go to climber box
         motor_1.setPower(-1.0);
         motor_2.setPower(-1.0);
         motor_3.setPower(1.0);
         motor_4.setPower(1.0);
-        while(motor_1.getCurrentPosition() < 3360&&motor_3.getCurrentPosition() > -3360){}
+        while(motor_1.getCurrentPosition() < 4480&&motor_3.getCurrentPosition() > -4480){}
         motor_1.setPower(0.0);
         motor_2.setPower(0.0);
         motor_3.setPower(0.0);
@@ -118,7 +120,43 @@ public class MyAutoOp extends OpMode {
         motor_harvest.setPower(0.0);
         motor_harvest2.setPower(0.0);
 
+        //head straight 3 to the opposite ramp
+        motor_1.setPower(1.0);
+        motor_2.setPower(1.0);
+        motor_3.setPower(-1.0);
+        motor_4.setPower(-1.0);
+        while(motor_1.getCurrentPosition() < 2940&&motor_3.getCurrentPosition() > -2940){}
+        motor_1.setPower(0.0);
+        motor_2.setPower(0.0);
+        motor_3.setPower(0.0);
+        motor_4.setPower(0.0);
+        resetEncoders();
 
+        //turn right to face away from ramp
+        motor_1.setPower(-1.0);
+        motor_2.setPower(-1.0);
+        motor_3.setPower(-1.0);
+        motor_4.setPower(-1.0);
+        while(motor_1.getCurrentPosition() < 1260&&motor_3.getCurrentPosition() < 1260){}
+        motor_1.setPower(0.0);
+        motor_2.setPower(0.0);
+        motor_3.setPower(0.0);
+        motor_4.setPower(0.0);
+        resetEncoders();
+
+        //GO ONTO THE RAMP
+        motor_1.setPower(-1.0);
+        motor_2.setPower(-1.0);
+        motor_3.setPower(1.0);
+        motor_4.setPower(1.0);
+        while(motor_1.getCurrentPosition() > -2940&&motor_3.getCurrentPosition() < 2940){}
+        motor_1.setPower(0.0);
+        motor_2.setPower(0.0);
+        motor_3.setPower(0.0);
+        motor_4.setPower(0.0);
+        resetEncoders();
+
+        try {wait(30000L);} catch (InterruptedException e) {}
 
     }
     public void resetEncoders()

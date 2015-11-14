@@ -83,7 +83,8 @@ public class FtcOpModeRegister implements OpModeRegister {
     manager.register("K9IrSeeker", K9IrSeeker.class);
     manager.register("K9Line", K9Line.class);
     manager.register("MyTeleOp", MyTeleOp.class);
-    manager.register("MyAutoOp", MyAutoOp.class);
+    manager.register("RedClimbersRamp1", MyAutoOpRed1.class);
+    manager.register("RedClimbersRamp2", MyAutoOpRed2.class);
 
     /*
      * The following example op modes are designed to work with a pushbot-style robot.
