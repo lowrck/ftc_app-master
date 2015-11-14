@@ -118,6 +118,8 @@ public class MyAutoOp extends OpMode {
         motor_harvest.setPower(0.0);
         motor_harvest2.setPower(0.0);
 
+
+
     }
     public void resetEncoders()
     {
