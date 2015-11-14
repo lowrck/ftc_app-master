@@ -163,15 +163,10 @@ public class MyAutoOpRed1 extends OpMode {
         motor_2.setChannelMode(DcMotorController.RunMode.RESET_ENCODERS);
         motor_3.setChannelMode(DcMotorController.RunMode.RESET_ENCODERS);
         motor_4.setChannelMode(DcMotorController.RunMode.RESET_ENCODERS);
-
-        if (motor_1.getChannelMode() == DcMotorController.RunMode.RESET_ENCODERS)
-motor_1.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-if (motor_2.getChannelMode() == DcMotorController.RunMode.RESET_ENCODERS)
-motor_2.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-if (motor_3.getChannelMode() == DcMotorController.RunMode.RESET_ENCODERS)
-motor_3.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-if (motor_4.getChannelMode() == DcMotorController.RunMode.RESET_ENCODERS)
-motor_4.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        motor_1.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        motor_2.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        motor_3.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        motor_4.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
 
     }
 
