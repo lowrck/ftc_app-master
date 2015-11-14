@@ -64,7 +64,7 @@ public class MyTeleOp extends OpMode {
     DcMotor motor_2;
 	DcMotor motor_3;
 	DcMotor motor_4;
-
+	float harvester = 0.0f;
 	//Servo servo_1;
 
 	float lbumperval = 0f;
@@ -124,12 +124,12 @@ public class MyTeleOp extends OpMode {
         //servo_1 = hardwareMap.servo.get("servo_1");
 
 
-		//motor_1.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-		//motor_2.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-		//motor_3.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-		//motor_4.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-		//motor_harvest.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-		//		motor_harvest2.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+		motor_1.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+		motor_2.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+		motor_3.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+		motor_4.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+		motor_harvest.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+		motor_harvest2.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         }
 
 	/*
@@ -160,6 +160,8 @@ public class MyTeleOp extends OpMode {
 		boolean lbumper = gamepad1.left_bumper;
 		float rbumpervalue = 0;
 		boolean xswitch = gamepad1.x;
+
+
 
         float triggerdumpvalue = 0;
 
@@ -211,7 +213,7 @@ public class MyTeleOp extends OpMode {
 		motor_harvest.setPower(lbumperval);
 		motor_harvest2.setPower(-lbumperval);
 
-		if(xswitch)
+		if(xswitch == true)
 		{
 			pickup = !pickup;
 		}
@@ -224,8 +226,13 @@ public class MyTeleOp extends OpMode {
 		motor_2.setPower(righty);
 		motor_3.setPower(-lefty);
 		motor_4.setPower(-lefty);
-
-		motor_pickup.setPower(pickup?1.0f:0.0f);
+	if(pickup == true) {
+		motor_pickup.setPower(1);
+	}
+		else {
+		motor_pickup.setPower(0);
+	}
+		//motor_pickup.setPower(pickup?1.0f:0.0f);
 
 		/*
 		 * Send telemetry data back to driver station. Note that if we are using
@@ -237,8 +244,18 @@ public class MyTeleOp extends OpMode {
         telemetry.addData("left tgt pwr",  "left  pwr: " + String.format("%.3f", lefty));
         telemetry.addData("right tgt pwr", "right pwr: " + String.format("%.3f", righty));
         telemetry.addData("servo controller", "servo is" + String.format("%.3f", triggerdumpvalue));
+		telemetry.addData("Text", "Encoders");
+		telemetry.addData("left tgt pwr",  "left  pwr: " + String.format("%.3f", motor_1.getCurrentPosition()));
+		telemetry.addData("right tgt pwr", "right pwr: " + String.format("%.3f", motor_3.getCurrentPosition()));
+		telemetry.addData("servo controller", "servo is" + String.format("%.3f", motor_harvest.getCurrentPosition()));
+		if (motor_1.getCurrentPosition() < 560) {
+			resetEncoders();
+		}
+
 
 	}
+
+
 
 	/*
 	 * Code to run when the op mode is first disabled goes here
@@ -280,4 +297,28 @@ public class MyTeleOp extends OpMode {
 		return dScale;
 	}
 
+	public void resetEncoders()
+	{
+		motor_1.setChannelMode(DcMotorController.RunMode.RESET_ENCODERS);
+		motor_2.setChannelMode(DcMotorController.RunMode.RESET_ENCODERS);
+		motor_3.setChannelMode(DcMotorController.RunMode.RESET_ENCODERS);
+		motor_4.setChannelMode(DcMotorController.RunMode.RESET_ENCODERS);
+		motor_harvest.setChannelMode(DcMotorController.RunMode.RESET_ENCODERS);
+		motor_harvest2.setChannelMode(DcMotorController.RunMode.RESET_ENCODERS);
+
+		if (motor_1.getChannelMode() == DcMotorController.RunMode.RESET_ENCODERS)
+			motor_1.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+		if (motor_2.getChannelMode() == DcMotorController.RunMode.RESET_ENCODERS)
+			motor_2.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+		if (motor_3.getChannelMode() == DcMotorController.RunMode.RESET_ENCODERS)
+			motor_3.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+		if (motor_4.getChannelMode() == DcMotorController.RunMode.RESET_ENCODERS)
+			motor_4.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+		if (motor_harvest.getChannelMode() == DcMotorController.RunMode.RESET_ENCODERS)
+			motor_harvest.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+		if (motor_harvest2.getChannelMode() == DcMotorController.RunMode.RESET_ENCODERS)
+			motor_harvest2.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+
+
+	}
 }
