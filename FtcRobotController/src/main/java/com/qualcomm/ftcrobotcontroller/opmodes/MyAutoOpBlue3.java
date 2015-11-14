@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import java.util.Timer;
 
-public class MyAutoOpRed3 extends OpMode {
+public class MyAutoOpBlue3 extends OpMode {
 
     //Timer Task for ramp motor
 
@@ -70,11 +70,11 @@ public class MyAutoOpRed3 extends OpMode {
         motor_4.setPower(0.0);
         resetEncoders();
 
-        //turn right away from the ramp
-        motor_1.setPower(-1.0);
-        motor_2.setPower(-1.0);
-        motor_3.setPower(-1.0);
-        motor_4.setPower(-1.0);
+        //turn left away from the ramp
+        motor_1.setPower(1.0);
+        motor_2.setPower(1.0);
+        motor_3.setPower(1.0);
+        motor_4.setPower(1.0);
         while(motor_1.getCurrentPosition() < 420&&motor_3.getCurrentPosition() < 420){}
         motor_1.setPower(0.0);
         motor_2.setPower(0.0);
