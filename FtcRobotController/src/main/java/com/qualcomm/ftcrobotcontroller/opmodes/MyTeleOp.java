@@ -164,7 +164,7 @@ public class MyTeleOp extends OpMode {
 
 
 
-        float triggerdumpvalue = 0;
+        float triggerdumpvalue;
 
             if (triggerdump == true)
             {
