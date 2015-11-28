@@ -122,6 +122,7 @@ public class MyTeleOp extends OpMode {
 		motor_lift2 = hardwareMap.dcMotor.get("lift2"); //lift
 		motor_pickup = hardwareMap.dcMotor.get("pickup");
         //servo_1 = hardwareMap.servo.get("servo_1");
+        //AHHHHHHHHHHHHH
 
 
 		motor_1.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
