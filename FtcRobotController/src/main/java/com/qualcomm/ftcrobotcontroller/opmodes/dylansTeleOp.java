@@ -33,10 +33,12 @@ public class dylansTeleOp extends OpMode {
     public void init() {
         rf = hardwareMap.dcMotor.get("rf"); //right
         rb = hardwareMap.dcMotor.get("rb");
+        rf.setDirection(DcMotor.Direction.REVERSE);
+        rb.setDirection(DcMotor.Direction.REVERSE);
         lf = hardwareMap.dcMotor.get("lf"); //left
         lb = hardwareMap.dcMotor.get("lb");
-        lift1 = hardwareMap.dcMotor.get("lift"); //lift
-        lift2 = hardwareMap.dcMotor.get("lift2"); //lift
+        lift1 = hardwareMap.dcMotor.get("lift"); //RIGHT lift
+        lift2 = hardwareMap.dcMotor.get("lift2"); //LEFT lift
         harvester = hardwareMap.dcMotor.get("harvester");
         lift2.setDirection(DcMotor.Direction.REVERSE);
         //hook1 = hardwareMap.servo.get("hook1"); //servo hooks
@@ -66,17 +68,25 @@ public class dylansTeleOp extends OpMode {
             if(harvester.getPower() == 1.0)
                 harvester.setPower(0.0);
 
-        //basket rotation
+        //basket door
         if(rb2)
         {
-            if(basket.getPosition() == 0.0){
-                basket.setPosition(0.5);
+            if(door.getPosition() == 0.0)
+                door.setPosition(0.8);
+            else if(door.getPosition() == 0.8)
                 door.setPosition(0.0);
-            }
-            else if(basket.getPosition() == 0.5){
-                basket.setPosition(0.0);
-                door.setPosition(0.5);
-            }
+        }
+
+        //basket rotation
+        if(left2 > 0)
+        {
+            if(basket.getPosition() > 0.0)
+                basket.setPosition(basket.getPosition()-0.1);
+        }
+        else if (left2 < 0)
+        {
+            if(basket.getPosition() < 0.8)
+                basket.setPosition(basket.getPosition()+0.1);
         }
 
         //drive train
