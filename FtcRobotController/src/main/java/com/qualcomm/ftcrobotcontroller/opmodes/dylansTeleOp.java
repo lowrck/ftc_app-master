@@ -112,7 +112,9 @@ public class dylansTeleOp extends OpMode {
         telemetry.addData("Text", "*** Robot Data***");
         telemetry.addData("Lift1", "Lift 1: " + lift1.getCurrentPosition());
         telemetry.addData("Lift2", "Lift 2: " + lift2.getCurrentPosition());
-
+        telemetry.addData("Drive Train", "Drivetrain:\nLeft Stick: " + left + " Right Stick: " + right);
+        telemetry.addData("Basket", "Basket position: " + basket.getPosition());
+        telemetry.addData("Door", "Basket door: " + door.getPosition());
 
     }
 
