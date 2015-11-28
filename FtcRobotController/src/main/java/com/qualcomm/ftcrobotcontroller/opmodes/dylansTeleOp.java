@@ -115,7 +115,6 @@ public class dylansTeleOp extends OpMode {
         telemetry.addData("Drive Train", "Drivetrain:\nLeft Stick: " + left + " Right Stick: " + right);
         telemetry.addData("Basket", "Basket position: " + basket.getPosition());
         telemetry.addData("Door", "Basket door: " + door.getPosition());
-
     }
 
     //high
