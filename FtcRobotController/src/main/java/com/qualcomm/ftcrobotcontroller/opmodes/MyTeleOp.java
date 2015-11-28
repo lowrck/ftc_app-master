@@ -59,7 +59,7 @@ public class MyTeleOp extends OpMode {
 	 * as the arm servo approaches 0, the arm position moves up (away from the floor).
 	 * Also, as the claw servo approaches 0, the claw opens up (drops the game element).
 	 */
-	// tread motors
+	// drive motors
 	DcMotor motor_1;
     DcMotor motor_2;
 	DcMotor motor_3;
@@ -75,8 +75,8 @@ public class MyTeleOp extends OpMode {
 	harvester motors for robotics
 	 */
 
-	DcMotor motor_harvest2;
-	DcMotor motor_harvest;
+	DcMotor motor_lift2;
+	DcMotor motor_lift;
 	DcMotor motor_pickup;
 
 	/*
@@ -114,13 +114,13 @@ public class MyTeleOp extends OpMode {
 		 *    "servo_1" controls the arm joint of the manipulator.
 		 *    "servo_6" controls the claw joint of the manipulator.
 		 */
-        motor_1 = hardwareMap.dcMotor.get("motor_1");
-		motor_2 = hardwareMap.dcMotor.get("motor_2");
-		motor_3 = hardwareMap.dcMotor.get("motor_3");
-		motor_4 = hardwareMap.dcMotor.get("motor_4");
-		motor_harvest = hardwareMap.dcMotor.get("motor_harvest");
-		motor_harvest2 = hardwareMap.dcMotor.get("motor_harvest2");
-		motor_pickup = hardwareMap.dcMotor.get("motor_pickup");
+        motor_1 = hardwareMap.dcMotor.get("rf"); //right
+		motor_2 = hardwareMap.dcMotor.get("rb");
+		motor_3 = hardwareMap.dcMotor.get("lf"); //left
+        motor_4 = hardwareMap.dcMotor.get("lb");
+		motor_lift = hardwareMap.dcMotor.get("lift"); //lift
+		motor_lift2 = hardwareMap.dcMotor.get("lift2"); //lift
+		motor_pickup = hardwareMap.dcMotor.get("pickup");
         //servo_1 = hardwareMap.servo.get("servo_1");
 
 
@@ -128,8 +128,8 @@ public class MyTeleOp extends OpMode {
 		motor_2.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
 		motor_3.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
 		motor_4.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-		motor_harvest.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-		motor_harvest2.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+		motor_lift.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+		motor_lift2.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         }
 
 	/*
@@ -210,8 +210,8 @@ public class MyTeleOp extends OpMode {
 		else {
 			lbumperval = 0.0f;
 		}
-		motor_harvest.setPower(lbumperval);
-		motor_harvest2.setPower(-lbumperval);
+		motor_lift.setPower(lbumperval);
+		motor_lift2.setPower(-lbumperval);
 
 		if(xswitch == true)
 		{
@@ -247,7 +247,7 @@ public class MyTeleOp extends OpMode {
 		telemetry.addData("Text", "Encoders");
 		telemetry.addData("left tgt pwr",  "left  pwr: " + String.format("%.3f", motor_1.getCurrentPosition()));
 		telemetry.addData("right tgt pwr", "right pwr: " + String.format("%.3f", motor_3.getCurrentPosition()));
-		telemetry.addData("servo controller", "servo is" + String.format("%.3f", motor_harvest.getCurrentPosition()));
+		telemetry.addData("servo controller", "servo is" + String.format("%.3f", motor_lift.getCurrentPosition()));
 		if (motor_1.getCurrentPosition() < 560) {
 			resetEncoders();
 		}
@@ -303,8 +303,8 @@ public class MyTeleOp extends OpMode {
 		motor_2.setChannelMode(DcMotorController.RunMode.RESET_ENCODERS);
 		motor_3.setChannelMode(DcMotorController.RunMode.RESET_ENCODERS);
 		motor_4.setChannelMode(DcMotorController.RunMode.RESET_ENCODERS);
-		motor_harvest.setChannelMode(DcMotorController.RunMode.RESET_ENCODERS);
-		motor_harvest2.setChannelMode(DcMotorController.RunMode.RESET_ENCODERS);
+		motor_lift.setChannelMode(DcMotorController.RunMode.RESET_ENCODERS);
+		motor_lift2.setChannelMode(DcMotorController.RunMode.RESET_ENCODERS);
 
 		if (motor_1.getChannelMode() == DcMotorController.RunMode.RESET_ENCODERS)
 			motor_1.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
@@ -314,10 +314,10 @@ public class MyTeleOp extends OpMode {
 			motor_3.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
 		if (motor_4.getChannelMode() == DcMotorController.RunMode.RESET_ENCODERS)
 			motor_4.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-		if (motor_harvest.getChannelMode() == DcMotorController.RunMode.RESET_ENCODERS)
-			motor_harvest.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-		if (motor_harvest2.getChannelMode() == DcMotorController.RunMode.RESET_ENCODERS)
-			motor_harvest2.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+		if (motor_lift.getChannelMode() == DcMotorController.RunMode.RESET_ENCODERS)
+			motor_lift.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+		if (motor_lift2.getChannelMode() == DcMotorController.RunMode.RESET_ENCODERS)
+			motor_lift2.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
 
 
 	}
