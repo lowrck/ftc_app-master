@@ -5,31 +5,26 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.*;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import java.util.Timer;
 
-public class MyAutoOpBlue1 extends OpMode {
+public class MyAutoOpBlue1 extends LinearOpMode {
 
-    //Timer Task for ramp motor
 
-    Timer ramp = new Timer();
-    // tread motors
-    DcMotor motor_1;
-    DcMotor motor_2;
-    DcMotor motor_3;
-    DcMotor motor_4;
-
-	/*
-	Slide motors and servos for robotics
-	 */
-
-    DcMotor motor_harvest2; // Both of these motors control the basket slide
-    DcMotor motor_harvest;  // ^
-    Servo servo_1;   // controls the basket;
-    Servo servo_2;   //^ Both turn same direction
+    DcMotor rf;
+    DcMotor rb;
+    DcMotor lf;
+    DcMotor lb;
+    DcMotor lift2;
+    DcMotor lift1;
+    DcMotor harvester;
+    Servo basket;
+    Servo door;
 
     @Override
-    public void init() {
+    public void runOpMode() {
 
 		/*
 		 * Use the hardwareMap to get the dc motors and servos by name. Note
@@ -38,119 +33,115 @@ public class MyAutoOpBlue1 extends OpMode {
 		 */
 
 
-        motor_1 = hardwareMap.dcMotor.get("motor_1"); // right side
-        motor_2 = hardwareMap.dcMotor.get("motor_2"); // right side
-        motor_3 = hardwareMap.dcMotor.get("motor_3"); // left side
-        motor_4 = hardwareMap.dcMotor.get("motor_4"); // left side
-        motor_harvest = hardwareMap.dcMotor.get("motor_harvest");
-        motor_harvest2 = hardwareMap.dcMotor.get("motor_harvest2");
-        servo_1 = hardwareMap.servo.get("servo_1");
-        servo_2 = hardwareMap.servo.get("servo_2");
+        rf = hardwareMap.dcMotor.get("rf"); //right
+            rb = hardwareMap.dcMotor.get("rb");
+            lf = hardwareMap.dcMotor.get("lf"); //left
+            lb = hardwareMap.dcMotor.get("lb");
+            lift1 = hardwareMap.dcMotor.get("lift"); //RIGHT lift
+            lift2 = hardwareMap.dcMotor.get("lift2"); //LEFT lift
+            harvester = hardwareMap.dcMotor.get("harvester");
+            harvester.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
+            lift2.setDirection(DcMotor.Direction.REVERSE);
+            basket = hardwareMap.servo.get("basket"); //basket servo
+            door = hardwareMap.servo.get("door");
 
-        motor_1.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-        motor_2.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-        motor_3.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-        motor_4.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-        motor_harvest.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-        motor_harvest2.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-    }
 
-    @Override
-    public void loop()
-    {
+            //waitForStart();
+
         //Straight 4 tiles in order to line up with the climber box
-        motor_1.setPower(1.0);
-        motor_2.setPower(1.0);
-        motor_3.setPower(-1.0);
-        motor_4.setPower(-1.0);
-        while(motor_1.getCurrentPosition() < 5040&&motor_3.getCurrentPosition() > -5040){}
-        motor_1.setPower(0.0);
-        motor_2.setPower(0.0);
-        motor_3.setPower(0.0);
-        motor_4.setPower(0.0);
+        rb.setPower(1.0);
+        rf.setPower(1.0);
+        lf.setPower(-1.0);
+        lb.setPower(-1.0);
+        while(rf.getCurrentPosition() < 5040&&lf.getCurrentPosition() > -5040){}
+        rf.setPower(0.0);
+        rb.setPower(0.0);
+        lf.setPower(0.0);
+        lb.setPower(0.0);
         resetEncoders();
 
         //turn left to face away from basket
-        motor_1.setPower(1.0);
-        motor_2.setPower(1.0);
-        motor_3.setPower(1.0);
-        motor_4.setPower(1.0);
-        while(motor_1.getCurrentPosition() < 840&&motor_3.getCurrentPosition() < 840){}
-        motor_1.setPower(0.0);
-        motor_2.setPower(0.0);
-        motor_3.setPower(0.0);
-        motor_4.setPower(0.0);
+        rb.setPower(1.0);
+        rf.setPower(1.0);
+        lf.setPower(1.0);
+        lb.setPower(1.0);
+        while(rf.getCurrentPosition() < 840&&lf.getCurrentPosition() < 840){}
+        rf.setPower(0.0);
+        rb.setPower(0.0);
+        lf.setPower(0.0);
+        lb.setPower(0.0);
         resetEncoders();
 
         //Straight 3 tiles in order to go to climber box
-        motor_1.setPower(-1.0);
-        motor_2.setPower(-1.0);
-        motor_3.setPower(1.0);
-        motor_4.setPower(1.0);
-        while(motor_1.getCurrentPosition() < 3360&&motor_3.getCurrentPosition() > -3360){}
-        motor_1.setPower(0.0);
-        motor_2.setPower(0.0);
-        motor_3.setPower(0.0);
-        motor_4.setPower(0.0);
+        rf.setPower(-1.0);
+        rb.setPower(-1.0);
+        lf.setPower(1.0);
+        lb.setPower(1.0);
+        while(rf.getCurrentPosition() < 3360&&lf.getCurrentPosition() > -3360){}
+        rf.setPower(0.0);
+        rb.setPower(0.0);
+        lf.setPower(0.0);
+        lb.setPower(0.0);
         resetEncoders();
 
         //lift basket towards box
-        motor_harvest.setPower(0.7);
-        motor_harvest2.setPower(0.7);
-        while(motor_harvest.getCurrentPosition() < 2800 && motor_harvest2.getCurrentPosition() < 2800){}
-        motor_harvest.setPower(0.0);
-        motor_harvest2.setPower(0.0);
+        lift1.setPower(0.7);
+        lift2.setPower(0.7);
+        door.setPosition(0.8);
+        while(lift1.getCurrentPosition() < 2800 && lift2.getCurrentPosition() < 2800){}
+        lift1.setPower(0.0);
+        lift2.setPower(0.0);
 
         //turn basket to score
-        servo_1.setPosition(90);
-        servo_2.setPosition(90);
-        while(servo_1.getPosition() != 90 && servo_2.getPosition() != 90){}
+        basket.setPosition(0.8);
+        door.setPosition(0.1);
+        while(basket.getPosition() != 90){}
         try{wait(3000L);}catch (InterruptedException e){}
-        servo_1.setPosition(0);
-        servo_2.setPosition(0);
-        while(servo_1.getPosition() != 0 && servo_2.getPosition() != 0){}
+        basket.setPosition(0);
+        while(basket.getPosition() != 0){}
 
         //lower slides
-        motor_harvest.setPower(-0.5);
-        motor_harvest2.setPower(-0.5);
-        while(motor_harvest.getCurrentPosition() > 0 && motor_harvest2.getCurrentPosition() > 0){}
-        motor_harvest.setPower(0.0);
-        motor_harvest2.setPower(0.0);
+        lift1.setPower(-0.5);
+        lift2.setPower(-0.5);
+        door.setPosition(0.3);
+        while(lift1.getCurrentPosition() > 0 && lift2.getCurrentPosition() > 0){}
+        lift1.setPower(0.0);
+        lift2.setPower(0.0);
 
         //head straight 3 to the opposite ramp
-        motor_1.setPower(1.0);
-        motor_2.setPower(1.0);
-        motor_3.setPower(-1.0);
-        motor_4.setPower(-1.0);
-        while(motor_1.getCurrentPosition() < 2940&&motor_3.getCurrentPosition() > -2940){}
-        motor_1.setPower(0.0);
-        motor_2.setPower(0.0);
-        motor_3.setPower(0.0);
-        motor_4.setPower(0.0);
+        rf.setPower(1.0);
+        rb.setPower(1.0);
+        lf.setPower(-1.0);
+        lb.setPower(-1.0);
+        while(rf.getCurrentPosition() < 2940&&lf.getCurrentPosition() > -2940){}
+        rf.setPower(0.0);
+        rb.setPower(0.0);
+        lf.setPower(0.0);
+        lb.setPower(0.0);
         resetEncoders();
 
         //turn left to face away from ramp
-        motor_1.setPower(1.0);
-        motor_2.setPower(1.0);
-        motor_3.setPower(1.0);
-        motor_4.setPower(1.0);
-        while(motor_1.getCurrentPosition() < 1260&&motor_3.getCurrentPosition() < 1260){}
-        motor_1.setPower(0.0);
-        motor_2.setPower(0.0);
-        motor_3.setPower(0.0);
-        motor_4.setPower(0.0);
+        rf.setPower(1.0);
+        rb.setPower(1.0);
+        lf.setPower(1.0);
+        lb.setPower(1.0);
+        while(rf.getCurrentPosition() < 1260&&lf.getCurrentPosition() < 1260){}
+        rf.setPower(0.0);
+        rb.setPower(0.0);
+        lf.setPower(0.0);
+        lb.setPower(0.0);
         resetEncoders();
 
         //GO ONTO THE RAMP
-        motor_1.setPower(-1.0);
-        motor_2.setPower(-1.0);
-        motor_3.setPower(1.0);
-        motor_4.setPower(1.0);
-        while(motor_1.getCurrentPosition() > -2940&&motor_3.getCurrentPosition() < 2940){}
-        motor_1.setPower(0.0);
-        motor_2.setPower(0.0);
-        motor_3.setPower(0.0);
-        motor_4.setPower(0.0);
+        rf.setPower(-1.0);
+        rb.setPower(-1.0);
+        lf.setPower(1.0);
+        lb.setPower(1.0);
+        while(rf.getCurrentPosition() > -2940&&lb.getCurrentPosition() < 2940){}
+        rf.setPower(0.0);
+        rb.setPower(0.0);
+        lf.setPower(0.0);
+        lb.setPower(0.0);
         resetEncoders();
 
         try {wait(30000L);} catch (InterruptedException e) {}
@@ -158,18 +149,9 @@ public class MyAutoOpBlue1 extends OpMode {
     }
     public void resetEncoders()
     {
-        motor_1.setChannelMode(DcMotorController.RunMode.RESET_ENCODERS);
-        motor_2.setChannelMode(DcMotorController.RunMode.RESET_ENCODERS);
-        motor_3.setChannelMode(DcMotorController.RunMode.RESET_ENCODERS);
-        motor_4.setChannelMode(DcMotorController.RunMode.RESET_ENCODERS);
-        motor_1.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-        motor_2.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-        motor_3.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-        motor_4.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-    }
-
-    @Override
-    public void stop(){
-
+        rf.setChannelMode(DcMotorController.RunMode.RESET_ENCODERS);
+        rb.setChannelMode(DcMotorController.RunMode.RESET_ENCODERS);
+        lf.setChannelMode(DcMotorController.RunMode.RESET_ENCODERS);
+        lb.setChannelMode(DcMotorController.RunMode.RESET_ENCODERS);
     }
 }

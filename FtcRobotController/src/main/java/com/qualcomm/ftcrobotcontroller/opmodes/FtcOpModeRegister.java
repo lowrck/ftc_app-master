@@ -79,18 +79,18 @@ public class FtcOpModeRegister implements OpModeRegister {
      *  - K9Line uses a legacy LEGO NXT light sensor to follow a white line.
      */
 
-    manager.register("K9TeleOp", K9TeleOp.class);
-    manager.register("K9IrSeeker", K9IrSeeker.class);
-    manager.register("K9Line", K9Line.class);
-    manager.register("TeleOp", dylansTeleOp.class);
-    manager.register("MyTeleOp", MyTeleOp.class);
-    manager.register("RedClimbersRamp1", MyAutoOpRed1.class);
-    manager.register("RedClimbersRamp2", MyAutoOpRed2.class);
-    manager.register("RedRamp1", MyAutoOpRed3.class);
+    //manager.register("K9TeleOp", K9TeleOp.class);
+    //manager.register("K9IrSeeker", K9IrSeeker.class);
+    //manager.register("K9Line", K9Line.class);
+    manager.register("DotaSux", dylansTeleOp.class);
+    //manager.register("MyTeleOp", MyTeleOp.class);
+    //manager.register("RedClimbersRamp1", MyAutoOpRed1.class);
+    //manager.register("RedClimbersRamp2", MyAutoOpRed2.class);
+    //manager.register("RedRamp1", MyAutoOpRed3.class);
     manager.register("BlueClimbersRamp1", MyAutoOpBlue1.class);
-    manager.register("BlueClimbersRamp2", MyAutoOpBlue2.class);
-    manager.register("BlueRamp1", MyAutoOpBlue3.class);
-    manager.register("BlueRamp2", MyAutoOpBlue4.class);
+    //manager.register("BlueClimbersRamp2", MyAutoOpBlue2.class);
+    //manager.register("BlueRamp1", MyAutoOpBlue3.class);
+    //manager.register("BlueRamp2", MyAutoOpBlue4.class);
 
 
     /*
@@ -102,11 +102,11 @@ public class FtcOpModeRegister implements OpModeRegister {
      *  - PushBotSquare uses the LinearOpMOde class and shows how to drive in a square pattern autonomously.
      */
 
-    manager.register("PushBotManual", PushBotManual.class);
-    manager.register("PushBotAuto", PushBotAuto.class);
-    manager.register("PushBotDriveTouch", PushBotDriveTouch.class);
-    manager.register("PushBotIrSeek", PushBotIrSeek.class);
-    manager.register("PushBotSquare", PushBotSquare.class);
+    //manager.register("PushBotManual", PushBotManual.class);
+    //manager.register("PushBotAuto", PushBotAuto.class);
+    //manager.register("PushBotDriveTouch", PushBotDriveTouch.class);
+    //manager.register("PushBotIrSeek", PushBotIrSeek.class);
+    //manager.register("PushBotSquare", PushBotSquare.class);
 
   }
 }

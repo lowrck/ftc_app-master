@@ -20,6 +20,7 @@ public class dylansTeleOp extends OpMode {
     DcMotor lift2;
     DcMotor lift1;
     DcMotor harvester;
+    DcMotor retractor;
     boolean pickup = false;
     Servo hook1;
     Servo hook2;
@@ -28,131 +29,158 @@ public class dylansTeleOp extends OpMode {
     int highzone = 1400;
     int midzone = 1000;
     int lowzone = 800;
+    boolean isMacroRunning = false;
 
     @Override
     public void init() {
         rf = hardwareMap.dcMotor.get("rf"); //right
         rb = hardwareMap.dcMotor.get("rb");
-        rf.setDirection(DcMotor.Direction.REVERSE);
-        rb.setDirection(DcMotor.Direction.REVERSE);
         lf = hardwareMap.dcMotor.get("lf"); //left
         lb = hardwareMap.dcMotor.get("lb");
         lift1 = hardwareMap.dcMotor.get("lift"); //RIGHT lift
         lift2 = hardwareMap.dcMotor.get("lift2"); //LEFT lift
         harvester = hardwareMap.dcMotor.get("harvester");
+        retractor = hardwareMap.dcMotor.get("retractor");
+        harvester.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
         lift2.setDirection(DcMotor.Direction.REVERSE);
         //hook1 = hardwareMap.servo.get("hook1"); //servo hooks
         //hook2 = hardwareMap.servo.get("hook2");
         basket = hardwareMap.servo.get("basket"); //basket servo
         door = hardwareMap.servo.get("door");
+        /*
+        lift1.setChannelMode(DcMotorController.RunMode.RESET_ENCODERS);
+        lift2.setChannelMode(DcMotorController.RunMode.RESET_ENCODERS);
         lift1.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-        lift2.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        lift2.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);*/
     }
 
+    @Override
     public void loop()
     {
-        float left = gamepad1.left_stick_y;
-        float right = gamepad1.right_stick_y;
-        float right2 = gamepad2.left_stick_y;
-        float left2 = gamepad2.right_stick_x;
-        boolean x = gamepad1.x;
-        boolean rb2 = gamepad2.right_bumper;
+        if(!isMacroRunning) {
+            float left = gamepad1.left_stick_y;
+            float right = gamepad1.right_stick_y;
+            float right2 = gamepad2.right_stick_y;
+            float left2 = gamepad2.left_stick_x;
+            boolean grab = gamepad1.right_bumper;
+            boolean reverse = gamepad1.left_bumper;
+            boolean rb2 = gamepad2.right_bumper;
+            //Add variables for other buttons
 
-        //harvester toggle
-        if(x)
-           pickup = !pickup;
-        if(pickup)
-            if(harvester.getPower() == 0.0)
-                harvester.setPower(1.0);
-        else if(!pickup)
-            if(harvester.getPower() == 1.0)
+            //harvester toggle
+            if (grab == true) {
+                pickup = !pickup;
+            }
+            if (pickup == true) {
+                if (reverse == true)
+                    harvester.setPower(-1.0);
+                if (reverse == false)
+                    harvester.setPower(1.0);
+            } else if (pickup == false)
                 harvester.setPower(0.0);
 
-        //basket door
-        if(rb2)
-        {
-            if(door.getPosition() == 0.0)
-                door.setPosition(0.8);
-            else if(door.getPosition() == 0.8)
-                door.setPosition(0.0);
-        }
+            //basket door
+            if (rb2 == true) {
+                if (door.getPosition() < 0.2)
+                    door.setPosition(0.9);
+                else if (door.getPosition() > 0.5)
+                    door.setPosition(0.0);
+            }
 
-        //basket rotation
-        if(left2 > 0)
-        {
-            if(basket.getPosition() > 0.0)
-                basket.setPosition(basket.getPosition()-0.1);
-        }
-        else if (left2 < 0)
-        {
-            if(basket.getPosition() < 0.8)
-                basket.setPosition(basket.getPosition()+0.1);
-        }
+            //basket rotation
+            if (left2 > 0) {
+                if (basket.getPosition() > 0.1)
+                    basket.setPosition(basket.getPosition() - 0.1);
+            } else if (left2 < 0) {
+                if (basket.getPosition() < 0.8)
+                    basket.setPosition(basket.getPosition() + 0.1);
+            }
 
-        //drive train
-        rb.setPower(right);
-        rf.setPower(right);
-        lb.setPower(left);
-        lf.setPower(left);
+            //drive train
+            rb.setPower(right);
+            rf.setPower(right);
+            lb.setPower(-left);
+            lf.setPower(-left);
 
-        //lift NO MACROS
-        lift1.setPower(-right2);
-        lift2.setPower(-right2);
+            //lift NO MACROS
+            lift1.setPower(right2);
+            lift2.setPower(right2);
+            retractor.setPower(right2); // retractor to pull in basket
 
-        //automatically open/close basket door
-        if(lift1.getCurrentPosition() > 420 && lift1.getPower() > 0)
-                basket.setPosition(0.8);
-        else if(lift1.getCurrentPosition() < 1300 && lift1.getPower() < 0)
-                basket.setPosition(0.0);
+            //automatically open/close basket door
+            //if(lift1.getCurrentPosition() > 420 && lift1.getPower() > 0)
+            //door.setPosition(0.8);
+            //else if(lift1.getCurrentPosition() < 1300 && lift1.getPower() < 0)
+            //basket.setPosition(0.0);
 
-        //lift macros
-        if(gamepad2.x) //high
-        {
-            macrox();
+            //lift macros
+            if (gamepad2.x) //high
+            {
+                isMacroRunning= true;
+                macrox();
+                isMacroRunning = false;
+            } else if (gamepad2.y) //mid
+            {
+                isMacroRunning = true;
+                macroy();
+                isMacroRunning = false;
+            } else if (gamepad2.b) //low
+            {
+                isMacroRunning = true;
+                macrob();
+                isMacroRunning = false;
+            }
+
+            telemetry.addData("Text", "*** Robot Data***");
+            telemetry.addData("Lift1", "" + lift1.getCurrentPosition());
+            telemetry.addData("Lift2", "" + lift2.getCurrentPosition());
+            telemetry.addData("Drive Train", "\nLeft Stick: " + left + " Right Stick: " + right);
+            telemetry.addData("Basket position", "" + basket.getPosition());
+            telemetry.addData("Door", "" + door.getPosition());
+            telemetry.addData("reading", "x: " + grab + " " + pickup);
+            telemetry.addData("second stick", "\nright2: " + right2 + " left2: " + left2);
         }
-        else if(gamepad2.y) //mid
-        {
-            macroy();
-        }
-        else if(gamepad2.b) //low
-        {
-            macrob();
-        }
-
-        telemetry.addData("Text", "*** Robot Data***");
-        telemetry.addData("Lift1", "Lift 1: " + lift1.getCurrentPosition());
-        telemetry.addData("Lift2", "Lift 2: " + lift2.getCurrentPosition());
-        telemetry.addData("Drive Train", "Drivetrain:\nLeft Stick: " + left + " Right Stick: " + right);
-        telemetry.addData("Basket", "Basket position: " + basket.getPosition());
-        telemetry.addData("Door", "Basket door: " + door.getPosition());
     }
 
+    public void sleep(int milli)
+    {
+        try{
+            Thread.sleep(milli);
+        }
+        catch(Exception e){}
+    }
     //high
     public void macrox()
     {
-         lift1.setPower(0.8);
+        //Add auto stop wheels
+         lift1.setPower(0.8); //Move lift
          lift2.setPower(0.8);
-         while(lift1.getCurrentPosition() < 420){}
+         retractor.setPower(0.8);
+         while(lift1.getCurrentPosition() < 420){sleep(20);}
          door.setPosition(.8); // starts to retract door after it passes gear
-         while(lift1.getCurrentPosition() < highzone){}
+         while(lift1.getCurrentPosition() < highzone){sleep(20);}
          lift1.setPower(0.0);
          lift2.setPower(0.0);
+         retractor.setPower(0.0);
          basket.setPosition(0.5);
          door.setPosition(0.0);
-         while(basket.getPosition() != 0.5){}
-        try {wait(3000L);}catch(InterruptedException e) {}
+         while(basket.getPosition() != 0.5){sleep(20);}
+        sleep(3000);
         basket.setPosition(0.0);
-         while(basket.getPosition() != 0.0){}
+         while(basket.getPosition() != 0.0){sleep(20);}
          lift1.setPower(-0.7);
          lift2.setPower(-0.7);
+         retractor.setPower(-0.7);
          door.setPosition(0.8);
-         while(lift1.getCurrentPosition()> 1200){} //wait to reopen door
+         while(lift1.getCurrentPosition()> 1200){sleep(20);} //wait to reopen door
          door.setPosition(0.0);
          lift1.setPower(-0.5);
          lift2.setPower(-0.5);
-         while(lift1.getCurrentPosition() > 0){}
+         retractor.setPower(-0.5);
+         while(lift1.getCurrentPosition() > 0){sleep(20);}
          lift1.setPower(0.0);
          lift2.setPower(0.0);
+         retractor.setPower(0.0);
 
     }
 
@@ -161,11 +189,13 @@ public class dylansTeleOp extends OpMode {
     {
         lift1.setPower(0.8);
         lift2.setPower(0.8);
+        retractor.setPower(0.8);
         while(lift1.getCurrentPosition() < 420){}
         door.setPosition(.8); // starts to retract door after it passes gear
         while(lift1.getCurrentPosition() < midzone){}
         lift1.setPower(0.0);
         lift2.setPower(0.0);
+        retractor.setPower(0.0);
         basket.setPosition(0.5);
         door.setPosition(0.0);
         while(basket.getPosition() != 0.5){}
@@ -174,14 +204,17 @@ public class dylansTeleOp extends OpMode {
         while(basket.getPosition() != 0.0){}
         lift1.setPower(-0.7);
         lift2.setPower(-0.7);
+        retractor.setPower(-0.7);
         door.setPosition(0.8);
         while(lift1.getCurrentPosition()> 1200){} //wait to reopen door
         door.setPosition(0.0);
         lift1.setPower(-0.5);
         lift2.setPower(-0.5);
+        retractor.setPower(-0.5);
         while(lift1.getCurrentPosition() > 0){}
         lift1.setPower(0.0);
         lift2.setPower(0.0);
+        retractor.setPower(0.0);
     }
 
     //low
@@ -189,11 +222,13 @@ public class dylansTeleOp extends OpMode {
     {
         lift1.setPower(0.8);
         lift2.setPower(0.8);
+        retractor.setPower(0.8);
         while(lift1.getCurrentPosition() < 420){}
         door.setPosition(.8); // starts to retract door after it passes gear
         while(lift1.getCurrentPosition() < lowzone){}
         lift1.setPower(0.0);
         lift2.setPower(0.0);
+        retractor.setPower(0.0);
         basket.setPosition(0.5);
         door.setPosition(0.0);
         while(basket.getPosition() != 0.5){}
@@ -202,13 +237,16 @@ public class dylansTeleOp extends OpMode {
         while(basket.getPosition() != 0.0){}
         lift1.setPower(-0.7);
         lift2.setPower(-0.7);
+        retractor.setPower(-0.7);
         door.setPosition(0.8);
         while(lift1.getCurrentPosition()> 1200){} //wait to reopen door
         door.setPosition(0.0);
         lift1.setPower(-0.5);
         lift2.setPower(-0.5);
+        retractor.setPower(-0.5);
         while(lift1.getCurrentPosition() > 0){}
         lift1.setPower(0.0);
         lift2.setPower(0.0);
+        retractor.setPower(0.0);
     }
 }
