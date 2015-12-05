@@ -20,6 +20,7 @@ public class MyAutoOpBlue1 extends LinearOpMode {
     DcMotor lift2;
     DcMotor lift1;
     DcMotor harvester;
+    DcMotor retractor;
     Servo basket;
     Servo door;
 
@@ -40,6 +41,7 @@ public class MyAutoOpBlue1 extends LinearOpMode {
             lift1 = hardwareMap.dcMotor.get("lift"); //RIGHT lift
             lift2 = hardwareMap.dcMotor.get("lift2"); //LEFT lift
             harvester = hardwareMap.dcMotor.get("harvester");
+            retractor = hardwareMap.dcMotor.get("retractor");
             harvester.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
             lift2.setDirection(DcMotor.Direction.REVERSE);
             basket = hardwareMap.servo.get("basket"); //basket servo
@@ -87,11 +89,12 @@ public class MyAutoOpBlue1 extends LinearOpMode {
         //lift basket towards box
         lift1.setPower(0.7);
         lift2.setPower(0.7);
+        retractor.setPower(0.7);
         door.setPosition(0.8);
         while(lift1.getCurrentPosition() < 2800 && lift2.getCurrentPosition() < 2800){}
         lift1.setPower(0.0);
         lift2.setPower(0.0);
-
+        retractor.setPower(0.0);
         //turn basket to score
         basket.setPosition(0.8);
         door.setPosition(0.1);
@@ -103,10 +106,12 @@ public class MyAutoOpBlue1 extends LinearOpMode {
         //lower slides
         lift1.setPower(-0.5);
         lift2.setPower(-0.5);
+        retractor.setPower(-0.5);
         door.setPosition(0.3);
         while(lift1.getCurrentPosition() > 0 && lift2.getCurrentPosition() > 0){}
         lift1.setPower(0.0);
         lift2.setPower(0.0);
+        retractor.setPower(0.0);
 
         //head straight 3 to the opposite ramp
         rf.setPower(1.0);
