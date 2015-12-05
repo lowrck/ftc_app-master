@@ -155,7 +155,7 @@ public class dylansTeleOp extends OpMode {
         //Add auto stop wheels
          lift1.setPower(0.8); //Move lift
          lift2.setPower(0.8);
-         retractor.setPower(0.8);
+         retractor.setPower(0.68);
          while(lift1.getCurrentPosition() < 420){sleep(20);}
          door.setPosition(.8); // starts to retract door after it passes gear
          while(lift1.getCurrentPosition() < highzone){sleep(20);}
@@ -170,13 +170,13 @@ public class dylansTeleOp extends OpMode {
          while(basket.getPosition() != 0.0){sleep(20);}
          lift1.setPower(-0.7);
          lift2.setPower(-0.7);
-         retractor.setPower(-0.7);
+         retractor.setPower(-0.595);
          door.setPosition(0.8);
          while(lift1.getCurrentPosition()> 1200){sleep(20);} //wait to reopen door
          door.setPosition(0.0);
          lift1.setPower(-0.5);
          lift2.setPower(-0.5);
-         retractor.setPower(-0.5);
+         retractor.setPower(-0.425);
          while(lift1.getCurrentPosition() > 0){sleep(20);}
          lift1.setPower(0.0);
          lift2.setPower(0.0);
@@ -189,7 +189,7 @@ public class dylansTeleOp extends OpMode {
     {
         lift1.setPower(0.8);
         lift2.setPower(0.8);
-        retractor.setPower(0.8);
+        retractor.setPower(0.68);
         while(lift1.getCurrentPosition() < 420){}
         door.setPosition(.8); // starts to retract door after it passes gear
         while(lift1.getCurrentPosition() < midzone){}
@@ -204,13 +204,13 @@ public class dylansTeleOp extends OpMode {
         while(basket.getPosition() != 0.0){}
         lift1.setPower(-0.7);
         lift2.setPower(-0.7);
-        retractor.setPower(-0.7);
+        retractor.setPower(-0.595);
         door.setPosition(0.8);
         while(lift1.getCurrentPosition()> 1200){} //wait to reopen door
         door.setPosition(0.0);
         lift1.setPower(-0.5);
         lift2.setPower(-0.5);
-        retractor.setPower(-0.5);
+        retractor.setPower(-0.425);
         while(lift1.getCurrentPosition() > 0){}
         lift1.setPower(0.0);
         lift2.setPower(0.0);
@@ -222,7 +222,7 @@ public class dylansTeleOp extends OpMode {
     {
         lift1.setPower(0.8);
         lift2.setPower(0.8);
-        retractor.setPower(0.8);
+        retractor.setPower(0.68);
         while(lift1.getCurrentPosition() < 420){}
         door.setPosition(.8); // starts to retract door after it passes gear
         while(lift1.getCurrentPosition() < lowzone){}
@@ -237,13 +237,13 @@ public class dylansTeleOp extends OpMode {
         while(basket.getPosition() != 0.0){}
         lift1.setPower(-0.7);
         lift2.setPower(-0.7);
-        retractor.setPower(-0.7);
+        retractor.setPower(-0.595);
         door.setPosition(0.8);
         while(lift1.getCurrentPosition()> 1200){} //wait to reopen door
         door.setPosition(0.0);
         lift1.setPower(-0.5);
         lift2.setPower(-0.5);
-        retractor.setPower(-0.5);
+        retractor.setPower(-0.425);
         while(lift1.getCurrentPosition() > 0){}
         lift1.setPower(0.0);
         lift2.setPower(0.0);
